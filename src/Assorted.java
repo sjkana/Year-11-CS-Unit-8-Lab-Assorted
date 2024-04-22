@@ -228,31 +228,22 @@ public class Assorted {
      * uniqueNumber(1,100) returns [1,2,3,4,5,6,7,8,9,89]
      */
     public static List<Integer> uniqueNumber(int lowerBound, int upperBound) {
-        List<Integer> result = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();
 
-        for (int number = lowerBound; number <= upperBound; number++) {
-            if (hasUniqueProperty(number)) {
-                result.add(number);
+        for (int i = lowerBound; i < upperBound; i++) {
+            int ones = i%10;
+            int tens = i/10;
+            int hundreds = i/100;
+            if (i < 10) numbers.add(i);
+            else if (i < 100) {
+                if (tens + Math.pow(ones, 2) == i) numbers.add(i);
+            }
+            else if (i < 1000) {
+                if (hundreds + Math.pow((i - (100*hundreds))/10, 2) + Math.pow(ones, 3) == i) numbers.add(i);
             }
         }
-        return result;
-    }
 
-    private static boolean hasUniqueProperty(int number) {
-        int sum = 0;
-        String temp = "" + number;
-        for(int i = 0; i<temp.length(); i++)
-        {
-            int t = temp.charAt(i);
-            sum += Math.pow(t, i+1);
-
-        }
-
-        if(sum == number)
-        {
-            return true;
-        }
-        return false;
+        return numbers;
     }
 
     /**
